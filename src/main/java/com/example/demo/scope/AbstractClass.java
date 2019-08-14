@@ -110,10 +110,10 @@ public class AbstractClass {
 		try {
 			Criteria criteria = session.createCriteria(obj.getClass());
 			for (Map.Entry<?, ?> entry : hm.entrySet()) {
-				if (dataType.equals("int"))
-					criteria.add(Restrictions.eq((String) entry.getKey(), (int) entry.getValue()));
-				else if (dataType.equals("string"))
-					criteria.add(Restrictions.eq((String) entry.getKey(), (String) entry.getValue()));
+//				if (dataType.equals("int"))
+//					criteria.add(Restrictions.eq((String) entry.getKey(), (int) entry.getValue()));
+//				else if (dataType.equals("string"))
+//					criteria.add(Restrictions.eq((String) entry.getKey(), (String) entry.getValue()));
 				System.out.println(entry.getKey() + "  " + entry.getValue());
 			}
 			criteria.setFirstResult(start);
@@ -141,7 +141,7 @@ public class AbstractClass {
 			transaction = session.beginTransaction();
 			Criteria criteria = session.createCriteria(obj.getClass());
 			for (Entry<String, String> entry : myMap.entrySet())
-				criteria.add(Restrictions.eq(entry.getKey(), entry.getValue()));
+//				criteria.add(Restrictions.eq(entry.getKey(), entry.getValue()));
 			obj = (Object) criteria.uniqueResult();
 			if (obj != null) {
 				session.saveOrUpdate(obj);
