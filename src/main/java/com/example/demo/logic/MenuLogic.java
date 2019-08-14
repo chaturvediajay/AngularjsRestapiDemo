@@ -141,7 +141,7 @@ public class MenuLogic {
 			Transaction transaction = session.beginTransaction();
 			Criteria criteria = session.createCriteria(obj.getClass());
 			for (Map.Entry<?, ?> entry : hm.entrySet()) {
-				criteria.add(Restrictions.eq((String) entry.getKey(), (int) entry.getValue()));
+//				criteria.add(Restrictions.eq((String) entry.getKey(), (int) entry.getValue()));
 				System.out.println(entry.getKey() + "  " + entry.getValue());
 			}
 			list = criteria.list();
