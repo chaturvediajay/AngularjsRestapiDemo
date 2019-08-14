@@ -118,7 +118,7 @@
     <artifactId>sample</artifactId>
     <version>1.0</version>
     <scope>system</scope>
-    <systemPath>D:/project/kritifab/WebContent/WEB-INF/lib/ccavutil.jar</systemPath>
+    <systemPath>${project.basedir}/src/main/resources/ccavutil.jar</systemPath>
 </dependency>
 	</dependencies>
 
