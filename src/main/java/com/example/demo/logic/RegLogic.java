@@ -24,15 +24,20 @@ public class RegLogic {
 		reg.setPswd(StrongAES.run(reg.getPswd()));
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
+			
 			transaction = session.beginTransaction();
+
+			System.out.println(session.isConnected());
 			bol = (Integer) session.save(reg) > 0 ? true : false;
-//			if (!transaction.wasCommitted()) {
-//				transaction.commit();
-//				bol = true;
-//			}
+
+				transaction.commit();
+
+
+			bol = true;
 		} catch (Exception e) {
 			if (transaction != null)
 				transaction.rollback();
+			System.out.println(e.toString()+"  "+reg);
 		} finally {
 			if (session != null)
 				session.close();

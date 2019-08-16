@@ -156,8 +156,8 @@ public class HomeController {
 	@RequestMapping(value = { "/signUp" }, method = { RequestMethod.GET })
 	public String getSignUp(HttpServletRequest request, ModelMap map) {
 		try {
-			if (RegLogic.checkLogin(request))
-				return "redirect:admin/";
+//			if (RegLogic.checkLogin(request))
+//				return "redirect:admin/";
 
 		} catch (Exception e) {
 			
