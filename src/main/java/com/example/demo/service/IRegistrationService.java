@@ -7,11 +7,11 @@ import com.example.demo.model.Registration;
 public interface IRegistrationService {
 	List<Registration> getAllRegistrations();
 
-	Registration getArticleById(int registrationId);
+	Registration getRegistrationById(int registrationId);
 
-	boolean addArticle(Registration registration);
+	boolean createRegistration(Registration registration);
 
-	void updateArticle(Registration registration);
+	void updateRegistration(Registration registration);
 
-	void deleteArticle(int registrationId);
+	void deleteRegistration(int registrationId);
 }

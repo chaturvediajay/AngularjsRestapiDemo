@@ -7,13 +7,13 @@ import com.example.demo.model.Registration;
 public interface IRegistrationDAO {
 	List<Registration> getAllArticles();
 
-	Registration getArticleById(int registrationId);
+	Registration getRegistrationById(int registrationId);
 
-	void addArticle(Registration registration);
+	boolean createRegistration(Registration registration);
 
-	void updateArticle(Registration registration);
+	void updateRegistration(Registration registration);
 
-	void deleteArticle(int registrationId);
+	void deleteRegistration(int registrationId);
 
-	boolean articleExists(String title, String category);
+	boolean registrationExists(String title, String category);
 }

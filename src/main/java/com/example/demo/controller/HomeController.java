@@ -5,35 +5,42 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.cart.TrasactionModel;
 import com.example.demo.ccavenue.ccavenuePayment;
 import com.example.demo.logic.CartLogic;
 import com.example.demo.logic.ProductLogic;
 import com.example.demo.logic.RegLogic;
-import com.example.demo.model.CartModel;
 import com.example.demo.model.LoginSession;
 import com.example.demo.model.OrderDetails;
 import com.example.demo.model.Registration;
 import com.example.demo.model.ShippingModel;
 import com.example.demo.scope.CartSession;
 import com.example.demo.scope.SessionUser;
+import com.example.demo.service.IRegistrationService;
 import com.google.gson.JsonObject;
 
 import antlr.collections.List;
 
 @Controller
-@ComponentScan(basePackages = { "com.example.demo.controller" })
+@ComponentScan(basePackages = { "com.example.demo" })
 public class HomeController {
+	
+	@Autowired
+	private IRegistrationService registrationService;
 
 	@GetMapping(value = "/")
 	public String getIndex() {
@@ -165,19 +172,23 @@ public class HomeController {
 		return "signUp";
 	}
 
-	@RequestMapping(value = { "/signUp" }, method = { RequestMethod.POST })
-	public String postSignUp(HttpServletRequest request, ModelMap map) {
-		Registration reg = new Registration();
+	
+	@PostMapping("signUp")
+	public String postSignUp(@RequestParam(name = "username") String username,@RequestParam MultiValueMap body , ModelMap map) {
 		try {
-			if (reg.checkValid(request).size() > 0)
-				map.addAttribute("error", reg.checkValid(request));
-
-			else {
-				if (RegLogic.regNewUser(reg))
+			Registration registration=new Registration();
+			registration.setName(body.getFirst("name").toString());
+			registration.setUsername(body.getFirst("username").toString());
+			registration.setEmail(body.getFirst("email").toString());
+			registration.setPswd(body.getFirst("pswd").toString());
+			registration.setMobile(body.getFirst("mobile").toString());
+//			System.out.println(registrationService.createRegistration(registration));
+//			
+				if (registrationService.createRegistration(registration))
 					map.addAttribute("error", "account create sucessfully.");
 				else
 					map.addAttribute("error", "try later.");
-			}
+			
 		} catch (Exception e) {
 		}
 		return "signUp";
