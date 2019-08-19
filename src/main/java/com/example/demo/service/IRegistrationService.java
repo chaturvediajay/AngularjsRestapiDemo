@@ -14,4 +14,5 @@ public interface IRegistrationService {
 	void updateRegistration(Registration registration);
 
 	void deleteRegistration(int registrationId);
+	Registration registrationExists(String username,String pswd);
 }

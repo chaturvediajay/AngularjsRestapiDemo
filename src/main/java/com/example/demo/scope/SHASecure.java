@@ -66,9 +66,9 @@ public class SHASecure {
     private static byte[] getSalt() throws NoSuchAlgorithmException
     {
     	
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+      //  SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
         byte[] salt = new byte[16];
-        sr.nextBytes(salt);
+      //  sr.nextBytes(salt);
         return salt;
     }
 }

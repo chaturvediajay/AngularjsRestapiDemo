@@ -15,5 +15,5 @@ public interface IRegistrationDAO {
 
 	void deleteRegistration(int registrationId);
 
-	boolean registrationExists(String title, String category);
+	Registration registrationExists(String username, String password);
 }

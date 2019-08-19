@@ -29,6 +29,7 @@ import com.example.demo.model.OrderDetails;
 import com.example.demo.model.Registration;
 import com.example.demo.model.ShippingModel;
 import com.example.demo.scope.CartSession;
+import com.example.demo.scope.SHASecure;
 import com.example.demo.scope.SessionUser;
 import com.example.demo.service.IRegistrationService;
 import com.google.gson.JsonObject;
@@ -38,7 +39,7 @@ import antlr.collections.List;
 @Controller
 @ComponentScan(basePackages = { "com.example.demo" })
 public class HomeController {
-	
+
 	@Autowired
 	private IRegistrationService registrationService;
 
@@ -46,6 +47,7 @@ public class HomeController {
 	public String getIndex() {
 		return "index";
 	}
+
 	@RequestMapping(value = { "/products" }, method = { RequestMethod.GET })
 	public String getProduct(HttpServletRequest request, ModelMap map) {
 		try {
@@ -119,7 +121,7 @@ public class HomeController {
 		try {
 
 		} catch (Exception e) {
-			
+
 		}
 		return "aboutUs";
 	}
@@ -167,16 +169,16 @@ public class HomeController {
 //				return "redirect:admin/";
 
 		} catch (Exception e) {
-			
+
 		}
 		return "signUp";
 	}
 
-	
 	@PostMapping("signUp")
-	public String postSignUp(@RequestParam(name = "username") String username,@RequestParam MultiValueMap body , ModelMap map) {
+	public String postSignUp(@RequestParam(name = "username") String username, @RequestParam MultiValueMap body,
+			ModelMap map) {
 		try {
-			Registration registration=new Registration();
+			Registration registration = new Registration();
 			registration.setName(body.getFirst("name").toString());
 			registration.setUsername(body.getFirst("username").toString());
 			registration.setEmail(body.getFirst("email").toString());
@@ -184,11 +186,11 @@ public class HomeController {
 			registration.setMobile(body.getFirst("mobile").toString());
 //			System.out.println(registrationService.createRegistration(registration));
 //			
-				if (registrationService.createRegistration(registration))
-					map.addAttribute("error", "account create sucessfully.");
-				else
-					map.addAttribute("error", "try later.");
-			
+			if (registrationService.createRegistration(registration))
+				map.addAttribute("error", "account create sucessfully.");
+			else
+				map.addAttribute("error", "try later.");
+
 		} catch (Exception e) {
 		}
 		return "signUp";
@@ -205,10 +207,20 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = { "/login" }, method = { RequestMethod.POST })
-	public String postLogin(HttpServletRequest request, ModelMap map) {
+	public String postLogin(HttpServletRequest request, @RequestParam MultiValueMap body, ModelMap map) {
 		try {
-			if (RegLogic.loginUser(request))
+			String username = body.getFirst("username").toString();
+
+			String pswd = body.getFirst("pswd").toString();
+			
+			Registration reg=registrationService.registrationExists(username, pswd);
+
+System.out.println("Registration  "+reg);
+			
+			if(reg!=null) 
 				return "redirect:admin/";
+			
+
 			else
 				map.addAttribute("error", "try later.");
 
@@ -345,8 +357,8 @@ public class HomeController {
 				model.addAttribute("payid", payid.replaceAll("\\+", ""));
 				model.addAttribute("amount", amount.replaceAll("\\+", ""));
 				return "cancel";
-			} 
-				
+			}
+
 		} catch (Exception e) {
 		}
 

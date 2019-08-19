@@ -1,10 +1,18 @@
 package com.example.demo.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,8 +46,8 @@ public class RegistrationDAO implements IRegistrationDAO {
 		try {
 			registration.setPswd(SHASecure.get_SHA_1_SecurePassword(registration.getPswd()));
 			entityManager.persist(registration);
-			
-			System.out.println("registration : "+registration.toString().length()+" : "+registration);
+
+			System.out.println("registration : " + registration.toString().length() + " : " + registration);
 
 			if (registration.getId() > 0)
 				return true;
@@ -63,10 +71,32 @@ public class RegistrationDAO implements IRegistrationDAO {
 	}
 
 	@Override
-	public boolean registrationExists(String title, String category) {
-		String hql = "FROM Registration as atcl WHERE atcl.title = ? and atcl.category = ?";
-		int count = entityManager.createQuery(hql).setParameter(1, title).setParameter(2, category).getResultList()
-				.size();
-		return count > 0 ? true : false;
+	public Registration registrationExists(String user, String pswd) {
+		Registration reg=null;
+		try {
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+//		 criteriaBuilder.add(Restrictions.eq("username", user));
+		System.out.println("************   "+user+" : "+pswd);
+		
+		CriteriaQuery<Registration> cq = cb.createQuery(Registration.class);
+		Root<Registration> root = cq.from(Registration.class);
+		List<Predicate> predicates = new ArrayList<>();
+		predicates.add(cb.equal(root.get("pswd"), SHASecure.get_SHA_1_SecurePassword(pswd)));
+		predicates.add(cb.or((cb.equal(root.get("username"), user)),
+		          cb.equal(root.get("email"), user)));
+		cq.select(root).where(predicates.toArray(new Predicate[]{}));
+		reg=entityManager.createQuery(cq).getSingleResult();
+		System.out.println("************   "+reg);
+		}
+		catch (Exception e) {
+			System.out.println(e.toString());
+			// TODO: handle exception
+		}
+		return reg;
+
+//		String hql = "FROM Registration as reg WHERE (reg.username =?1 or reg.email=?2 )and reg.pswd = ?3";
+//		int count = entityManager.createQuery(hql).setParameter(1, user).setParameter(2, user).setParameter(3, pswd).getResultList()
+//				.size();
+//		return count > 0 ? true : false;
 	}
 }

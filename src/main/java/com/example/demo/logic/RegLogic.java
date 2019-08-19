@@ -8,11 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.model.HibernateUtil;
 import com.example.demo.model.LoginSession;
 import com.example.demo.model.Registration;
 import com.example.demo.scope.AbstractClass;
+import com.example.demo.scope.SHASecure;
 import com.example.demo.scope.StrongAES;
 
 public class RegLogic {
@@ -45,35 +48,42 @@ public class RegLogic {
 		return bol;
 	}
 
-	public static boolean loginUser(HttpServletRequest request) {
+	public static boolean loginUser(HttpServletRequest request,@RequestParam MultiValueMap body) {
 		boolean bol = false;
 		try {
-			String username = request.getParameter("username");
-			String pswd = request.getParameter("pswd");
+			String username = body.getFirst("username").toString();
+			
+			String pswd = SHASecure.get_SHA_1_SecurePassword(body.getFirst("pswd").toString()) ;
 
 			if ((username.length() > 0 & username != null) & (pswd.length() > 0 & pswd != null)) {
 				String query = "SELECT username,uid,name,email,authorize FROM registration " + "where pswd='"
-						+ StrongAES.run(pswd) + "' and (email='" + username + "' or username='" + username + "')";
+						+ pswd + "' and (email='" + username + "' or username='" + username + "')";
 				
 				System.out.println(query);
+				
+				
+				
+				
+				
 
-				List<Object[]> list = AbstractClass.listObj(query);
-				if (list != null & list.size() > 0) {
-					for (int i = 0; i < list.size(); i++) {
-						LoginSession ls = new LoginSession();
-						Object[] row = (Object[]) list.get(i);
-						int num = row.length;
-						for (int j = num - 1; j < row.length; j++) {
-							ls.setAuthorize(Integer.parseInt(row[j].toString()));
-							ls.setEmail(row[j - 1].toString());
-							ls.setName(row[j - 2].toString());
-							ls.setId(Integer.parseInt((row[j - 3].toString())));
-							ls.setUsername(row[j - 4].toString());
-							bol = true;
-							request.getSession().setAttribute("loginSession", ls);
-						}
-					}
-				}
+//				List<Object[]> list = AbstractClass.listObj(query);
+//				System.out.println("list size "+list.size());
+//				if (list != null & list.size() > 0) {
+//					for (int i = 0; i < list.size(); i++) {
+//						LoginSession ls = new LoginSession();
+//						Object[] row = (Object[]) list.get(i);
+//						int num = row.length;
+//						for (int j = num - 1; j < row.length; j++) {
+//							ls.setAuthorize(Integer.parseInt(row[j].toString()));
+//							ls.setEmail(row[j - 1].toString());
+//							ls.setName(row[j - 2].toString());
+//							ls.setId(Integer.parseInt((row[j - 3].toString())));
+//							ls.setUsername(row[j - 4].toString());
+//							bol = true;
+//							request.getSession().setAttribute("loginSession", ls);
+//						}
+//					}
+//				}
 
 				// int num = ((Long) session.createQuery("SELECT
 				// secret,username,uid,name,email,authorize FROM registration

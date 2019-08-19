@@ -42,4 +42,10 @@ public class RegistrationService implements IRegistrationService {
 
 	}
 
+	@Override
+	public Registration registrationExists(String username, String pswd) {
+		// TODO Auto-generated method stub
+		return registrationDAO.registrationExists(username, pswd);
+	}
+
 }
