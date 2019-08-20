@@ -12,15 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AdminController {
 	@RequestMapping(value = { "/" }, method = { RequestMethod.GET })
 	public String indexGet(HttpServletRequest request, ModelMap map) {
-//		try {
-//			if (RegLogic.checkLogin(request))
-//				return "redirect:/";
-//			else
-//				map.addAttribute("featuredPro", " Get Controller");
-//
-//		} catch (Exception e) {
-//			logger.error("AdminController error(42)indexGet  " + e.toString());
-//		}
-		return "admin/index";
+		if (request.getSession().getAttribute("user") != null)
+			return "admin/index";
+		else
+			return "redirect:/login";
 	}
 }

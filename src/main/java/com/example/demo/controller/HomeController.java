@@ -210,18 +210,12 @@ public class HomeController {
 	public String postLogin(HttpServletRequest request, @RequestParam MultiValueMap body, ModelMap map) {
 		try {
 			String username = body.getFirst("username").toString();
-
 			String pswd = body.getFirst("pswd").toString();
-			
-			Registration reg=registrationService.registrationExists(username, pswd);
-
-System.out.println("Registration  "+reg);
-			
-			if(reg!=null) 
+			Registration reg = registrationService.registrationExists(username, pswd);
+			if (reg != null) {
+				request.getSession().setAttribute("user", reg);
 				return "redirect:admin/";
-			
-
-			else
+			} else
 				map.addAttribute("error", "try later.");
 
 		} catch (Exception e) {
@@ -240,7 +234,7 @@ System.out.println("Registration  "+reg);
 
 	@RequestMapping(value = { "/logout" }, method = { RequestMethod.GET })
 	public String getlogout(HttpServletRequest request) {
-		request.getSession().removeAttribute("loginSession");
+		request.getSession().removeAttribute("user");
 		HttpSession session = request.getSession(false);
 		if (session != null) {
 			session.invalidate();
@@ -364,4 +358,5 @@ System.out.println("Registration  "+reg);
 
 		return "redirect:/";
 	}
+
 }

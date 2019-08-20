@@ -72,31 +72,22 @@ public class RegistrationDAO implements IRegistrationDAO {
 
 	@Override
 	public Registration registrationExists(String user, String pswd) {
-		Registration reg=null;
+		Registration reg = null;
 		try {
-		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-//		 criteriaBuilder.add(Restrictions.eq("username", user));
-		System.out.println("************   "+user+" : "+pswd);
-		
-		CriteriaQuery<Registration> cq = cb.createQuery(Registration.class);
-		Root<Registration> root = cq.from(Registration.class);
-		List<Predicate> predicates = new ArrayList<>();
-		predicates.add(cb.equal(root.get("pswd"), SHASecure.get_SHA_1_SecurePassword(pswd)));
-		predicates.add(cb.or((cb.equal(root.get("username"), user)),
-		          cb.equal(root.get("email"), user)));
-		cq.select(root).where(predicates.toArray(new Predicate[]{}));
-		reg=entityManager.createQuery(cq).getSingleResult();
-		System.out.println("************   "+reg);
-		}
-		catch (Exception e) {
+			if ((user.length() > 0 & user != null) & (pswd.length() > 0 & pswd != null)) {
+				CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+				CriteriaQuery<Registration> cq = cb.createQuery(Registration.class);
+				Root<Registration> root = cq.from(Registration.class);
+				List<Predicate> predicates = new ArrayList<>();
+				predicates.add(cb.equal(root.get("pswd"), SHASecure.get_SHA_1_SecurePassword(pswd)));
+				predicates.add(cb.or((cb.equal(root.get("username"), user)), cb.equal(root.get("email"), user)));
+				cq.select(root).where(predicates.toArray(new Predicate[] {}));
+				reg = entityManager.createQuery(cq).getSingleResult();
+			}
+		} catch (Exception e) {
 			System.out.println(e.toString());
-			// TODO: handle exception
 		}
 		return reg;
 
-//		String hql = "FROM Registration as reg WHERE (reg.username =?1 or reg.email=?2 )and reg.pswd = ?3";
-//		int count = entityManager.createQuery(hql).setParameter(1, user).setParameter(2, user).setParameter(3, pswd).getResultList()
-//				.size();
-//		return count > 0 ? true : false;
 	}
 }
