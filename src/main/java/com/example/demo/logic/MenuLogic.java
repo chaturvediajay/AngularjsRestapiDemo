@@ -1,175 +1,208 @@
 package com.example.demo.logic;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.hibernate.Criteria;
+import javax.servlet.http.HttpServletRequest;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import com.example.demo.model.HibernateUtil;
 import com.example.demo.model.Menu1;
-import com.example.demo.model.Menu2;
-import com.example.demo.model.Menu3;
 
 public class MenuLogic {
+	private String m1id;
+	private String m2id;
+	private String categories_val;
+	private String categories_key;
+	private String m3id;
+	private String cate;
 
-	public static List<Menu1> getMenuObj(Object obj, int num) {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		List<Menu1> menul=null;
-		System.out.println("  "+obj+"  "+num);
+	public MenuLogic(HttpServletRequest request) {
+		if (request.getParameter("m1id") != null)
+			this.m1id = request.getParameter("m1id").trim();
+		if (request.getParameter("m2id") != null)
+			this.m2id = request.getParameter("m2id").trim();
+		if (request.getParameter("categories_val") != null)
+			this.categories_val = request.getParameter("categories_val").trim();
+		if (request.getParameter("categories_key") != null)
+			this.categories_key = request.getParameter("categories_key").trim();
+		if (request.getParameter("m3id") != null)
+			this.m3id = request.getParameter("m3id").trim();
+		if (request.getParameter("cate") != null)
+			this.cate = request.getParameter("cate").trim();
+	}
+
+	public boolean addCategories() {
+		String res = "";
+		boolean bol = false;
+	//	if (((this.m1id != null) ? 1 : 0) & ((this.m2id != null) ? 1 : 0) & ((this.categories_val != null) ? 1 : 0)
+		//		& ((this.categories_key != null) ? 1 : 0) & ((this.m3id != null) ? 1 : 0)) {
+			try {
+				JSONObject obj = new JSONObject();
+				obj.put("m1id", this.m1id);
+				obj.put("m2id", this.m2id);
+				obj.put("categories_val", this.categories_val);
+				obj.put("m3id", this.m3id);
+				obj.put("categories_key", this.categories_key);
+				obj.put("status", true);
+
+				Session session = null;
+				Transaction transaction = null;
+				try {
+
+
+					if (this.cate.equals("txtMenu1")) {
+						Menu1 m = new Menu1();
+						m.setMenu(this.categories_val);
+						bol = (((Integer) session.save(m)).intValue() > 0);
+					} else if (this.cate.equals("optMenu2")) {
+//						Menu2 m2 = new Menu2();
+//						Menu1 m1 = new Menu1();
+//						m1.setM1id(Integer.parseInt(this.m1id));
+//						m2.setSubmenu(this.categories_val);
+//						m2.setM1id(m1);
+//						bol = (((Integer) session.save(m2)).intValue() > 0);
+					} else if (this.cate.equals("optMenu3")) {
+//						Menu3 m3 = new Menu3();
+//						Menu2 m2 = new Menu2();
+//						Menu1 m1 = new Menu1();
+//						m1.setM1id(Integer.parseInt(this.m1id));
+//						m2.setM2id(Integer.parseInt(this.m2id));
+//						m3.setSubmenu(this.categories_val);
+//						m3.setM1id(m1);
+//						m3.setM2id(m2);
+//						bol = (((Integer) session.save(m3)).intValue() > 0);
+					}
+
+//					if (!transaction.wasCommitted()) {
+//						transaction.commit();
+//						bol = true;
+//					}
+
+				} catch (Exception e) {
+					if (transaction != null)
+						transaction.rollback();
+				} finally {
+					if (session != null) {
+						session.close();
+					}
+				}
+				res = obj.toString();
+			} catch (JSONException e) {
+
+				res = "{\"msg\":\"" + e.toString() + "\",\"status\":" + Character.MIN_VALUE + ",\"deep\":" + "\"" + "no"
+						+ "\"" + "}";
+			}
+		//}
+		return bol;
+	}
+
+	public static List<?> retriveMenu(JSONObject obj) {
+//		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<?> lstmenu = null;
+
 		try {
-			Criteria criteria = session.createCriteria(Menu1.class);
-			menul = criteria.list();
-//			for(Menu1 m1:menul)
-//				System.out.println(" Menu Name= "+m1.getMenu());
-			session.getTransaction().commit();
+			if (obj.getInt("id") > 0) {
+//				session.beginTransaction();
+//				if (obj.get("select").equals("menu1")) {
+//					lstmenu = session.createQuery("from Menu2 where  m1id=" + obj.getInt("id")).list();
+//				} else if (obj.get("select").equals("menu2")) {
+//					lstmenu = session.createQuery("from Menu3 where  m1id=" + obj.getInt("id")).list();
+//				}
+
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} finally {
+//			if (session != null) {
+//				session.close();
+//			}
+		}
+		return lstmenu;
+	}
+
+	public static void main(String[] args) {
+//		Session session = HibernateUtil.getSessionFactory().openSession();
+//		session.beginTransaction();
+//
+//		session.close();
+	}
+
+	public static List<Menu1> getMenuObj() {
+//		Session session = HibernateUtil.getSessionFactory().openSession();
+//		session.beginTransaction();
+		List<Menu1> menul = null;
+		try {
+//			Criteria criteria = session.createCriteria(Menu1.class);
+//			menul = criteria.list();
+//			session.getTransaction().commit();
 		} catch (HibernateException e) {
-			session.getTransaction().rollback();
+//			session.getTransaction().rollback();
+		} finally {
+
+//			if (session != null)
+//				session.close();
 		}
 		return menul;
 	}
-	public static void main(String[] args) {
-//		Session session = HibernateUtil.getSessionFactory().openSession();
-//		
-//		System.out.println(session.isConnected());
-//		session.close();
-		
-		MenuLogic.getMenuObj((Object) new Menu1(), 0);
-	}
-	
-	
-	
-	
-	public static String addMenus(int m1id, int m2id, String title, String categories) {
-		String str;
-		str = "";
-		Session session = null;
-		Transaction transaction = null;
-		try {
-			try {
-				session = HibernateUtil.getSessionFactory().openSession();
-				transaction = session.beginTransaction();
-				if (categories.equals("menu1")) {
-					if (MenuLogic.uniqueTitle("menu1", session, title)) {
-						Menu1 cate = new Menu1();
-						cate.setMenu(title);
-						str = (Integer) session.save((Object) cate) > 0 ? String.valueOf(str) + "Menu add sucessfully"
-								: String.valueOf(str) + "Menu:- please try after some time";
-					} else {
-						str = String.valueOf(str) + "Menu:- already Menu in list";
-					}
-				} else if (categories.equals("menu2")) {
-					if (MenuLogic.uniqueTitle("menu2", session, title)) {
-						Menu2 company = new Menu2();
-						company.setSubmenu(title);
-						company.setM1id(m1id);
-						// System.out.println(title+" "+m1id);
-						str = (Integer) session.save((Object) company) > 0
-								? String.valueOf(str) + "SubMenu add sucessfully"
-								: String.valueOf(str) + "SubMenu:- please try after some time";
-					} else {
-						str = String.valueOf(str) + "SubMenu:- already SubMenu in list";
-					}
-				} else if (categories.equals("menu3")) {
-					if (MenuLogic.uniqueTitle("menu3", session, title)) {
-						Menu3 model = new Menu3();
-						model.setSubmenu(title);
-						model.setM2id(m2id);
-						str = (Integer) session.save((Object) model) > 0
-								? String.valueOf(str) + "Sub-SubMenu add sucessfully"
-								: String.valueOf(str) + "Sub-SubMenu:- please try after some time";
-					} else {
-						str = String.valueOf(str) + "Sub-SubMenu:- already Sub-SubMenu in list";
-					}
-				}
-				
-			} catch (Exception ex) {
-				str = String.valueOf(str) + "categories add exception:- " + ex.toString();
-				if (transaction != null) {
-					transaction.rollback();
-				}
-				if (session != null) {
-					session.close();
-				}
-			}
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
-		return str;
-	}
-	public static Map<String, String> getMenu2Bym1id(int id, String cateName) {
-		LinkedHashMap<String, String> options;
-		options = new LinkedHashMap<String, String>();
-		try {
-			try {
-				HashMap<String, Integer> hm = new HashMap<>();
-				if (cateName.equals("menu1")) {
-					hm.put("m1id", id);
-					List<Menu2> menu2 = (List<Menu2>) ((Object) MenuLogic.getMenuObjCrtial(new Menu2(), hm));
-					for (Menu2 cat : menu2) {
-						options.put("" + cat.getM2id(), cat.getSubmenu());
-					}
 
-				} else if (cateName.equals("menu2")) {
-					hm.put("m2id", id);
-					List<Menu3> menu3 = (List<Menu3>) ((Object) MenuLogic.getMenuObjCrtial(new Menu3(), hm));
-					for (Menu3 cat : menu3) {
-						options.put("" + cat.getM3id(), cat.getSubmenu());
-					}
-				}
-				options.put("0", "Select");
-			} catch (Exception ex) {
-				System.out.println("getMenu2Bym1id(com.menu) :- " + ex.toString());
-			}
-		} finally {
-		}
-		return options;
-	}
-	public static List<Object> getMenuObjCrtial(Object obj, HashMap<?, ?> hm) {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		List<Object> list = Collections.emptyList();
-		try {
-			Transaction transaction = session.beginTransaction();
-			Criteria criteria = session.createCriteria(obj.getClass());
-			for (Map.Entry<?, ?> entry : hm.entrySet()) {
-//				criteria.add(Restrictions.eq((String) entry.getKey(), (int) entry.getValue()));
-				System.out.println(entry.getKey() + "  " + entry.getValue());
-			}
-			list = criteria.list();
-		} catch (HibernateException e) {
-			TestConnection.errorInfoInsert("com.logic.getMenuObjCrtial ", e.toString());
-		} finally {
-			session.close();
-		}
-		return list;
-	}
-	
-	private static boolean uniqueTitle(String categories, Session session, String title) {
-		String query = "";
-		try {
-			if (categories.equals("menu1")) {
-				query = "SELECT COUNT(*) FROM  Menu1 where menu='" + title + "'";
-			} else if (categories.equals("menu2")) {
-				query = "SELECT COUNT(*) FROM  Menu2 where submenu='" + title + "'";
-			} else if (categories.equals("menu3")) {
-				query = "SELECT COUNT(*) FROM  Menu3 where submenu='" + title + "'";
-			}
-			if ((Long) session.createQuery(query).uniqueResult() > 0) {
-				return false;
-			}
-		} catch (Exception ex) {
-			System.out.println("uniqure title: " + ex.toString());
-		}
-		return true;
+	public String toString() {
+		return "MenuLogic [m1id=" + this.m1id + ", m2id=" + this.m2id + ", categories_val=" + this.categories_val
+				+ ", categories_key=" + this.categories_key + ", m3id=" + this.m3id + "]";
 	}
 
+	private boolean checkBoolean(HttpServletRequest request, String key) {
+		if (request.getParameter(key) != null)
+			return true;
+		return false;
+	}
+
+	public String getM1id() {
+		return this.m1id;
+	}
+
+	public void setM1id(String m1id) {
+		this.m1id = m1id;
+	}
+
+	public String getM2id() {
+		return this.m2id;
+	}
+
+	public void setM2id(String m2id) {
+		this.m2id = m2id;
+	}
+
+	public String getM3id() {
+		return this.m3id;
+	}
+
+	public void setM3id(String m3id) {
+		this.m3id = m3id;
+	}
+
+	public String getCategories_val() {
+		return this.categories_val;
+	}
+
+	public void setCategories_val(String categories_val) {
+		this.categories_val = categories_val;
+	}
+
+	public String getCategories_key() {
+		return this.categories_key;
+	}
+
+	public void setCategories_key(String categories_key) {
+		this.categories_key = categories_key;
+	}
+
+	public String getCate() {
+		return this.cate;
+	}
+
+	public void setCate(String cate) {
+		this.cate = cate;
+	}
 }

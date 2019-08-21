@@ -1,4 +1,5 @@
 package com.example.demo.model;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,29 +7,32 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="menu3")
-public class Menu3{
+@Table(name = "menu3")
+public class Menu3 {
+
 	public Menu3() {
 	}
+
 	@Id
 	@GeneratedValue
 	@Column(name = "m3id")
-    private int m3id;
-	
-	@Column(name = "m2id")
-    private int m2id;
-    
-    @Column(name = "submenu")
-    private String submenu;
-    
-    @Column(name = "specification")
-    private String specification;
-    
-    @Column(name = "status")
-    private boolean status;
-    
+	private int m3id;
 
-    public int getM3id() {
+	@Column(name = "m2id")
+	private int m2id;
+	@Column(name = "m1id")
+	private int m1id;
+
+	@Column(name = "submenu")
+	private String submenu;
+
+	@Column(name = "specification")
+	private String specification;
+
+	@Column(name = "status")
+	private boolean status;
+
+	public int getM3id() {
 		return m3id;
 	}
 
@@ -52,19 +56,28 @@ public class Menu3{
 		this.status = status;
 	}
 
-    public String getSubmenu() {
-        return this.submenu;
-    }
+	public String getSubmenu() {
+		return this.submenu;
+	}
 
-    public void setSubmenu(String submenu) {
-        this.submenu = submenu;
-    }
+	public void setSubmenu(String submenu) {
+		this.submenu = submenu;
+	}
 
-    public String getSpecification() {
-        return this.specification;
-    }
+	public String getSpecification() {
+		return this.specification;
+	}
 
-    public void setSpecification(String specification) {
-        this.specification = specification;
-    }
+	public void setSpecification(String specification) {
+		this.specification = specification;
+	}
+
+	public int getM1id() {
+		return m1id;
+	}
+
+	public void setM1id(int m1id) {
+		this.m1id = m1id;
+	}
+
 }

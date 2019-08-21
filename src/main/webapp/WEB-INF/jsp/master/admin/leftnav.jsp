@@ -27,7 +27,7 @@
             
             
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="${pageContext.request.contextPath}/admin/add_menu">
                 <i class="menu-icon typcn typcn-th-large-outline"></i>
                 <span class="menu-title">Add Menu</span>
               </a>
@@ -35,7 +35,7 @@
             
             
              <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="${pageContext.request.contextPath}/admin/add_product">
                 <i class="menu-icon typcn typcn-th-large-outline"></i>
                 <span class="menu-title">Add Product</span>
               </a>

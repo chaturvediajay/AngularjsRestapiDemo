@@ -52,7 +52,12 @@ public class Menu1 {
         this.menu = menu;
     }
 
-    public static void main(String[] args) {
+    @Override
+	public String toString() {
+		return "Menu1 [m1id=" + m1id + ", menu=" + menu + ", status=" + status + "]";
+	}
+
+	public static void main(String[] args) {
 //        AnnotationConfiguration config = new AnnotationConfiguration();
 //        config.addAnnotatedClass((Class)Menu1.class);
 //        config.configure("hibernate.cfg.xml");

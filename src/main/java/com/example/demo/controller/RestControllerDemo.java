@@ -41,9 +41,7 @@ public class RestControllerDemo {
 
 	
 			//return new ResponseEntity(new Error(), HttpStatus.BAD_REQUEST);
-			//return new ResponseEntity(b, HttpStatus.BAD_REQUEST);
-			
-		
-			
+			//return new ResponseEntity(b, HttpStatus.BAD_REQUEST);		
 	}
+
 }
