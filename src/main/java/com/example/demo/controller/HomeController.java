@@ -65,7 +65,7 @@ public class HomeController {
 			if (pkey != null)
 				map.addAttribute("product_desc", ProductLogic.getProductHome("single", pkey));
 			else
-				return "index";
+				return "single";
 		} catch (Exception e) {
 		}
 		return "single";

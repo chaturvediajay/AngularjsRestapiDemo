@@ -77,106 +77,18 @@
 												
 													<p class="card-description">Add Menu Cateogies</p>
 													
-													<form method="post">
-													<div class="row">
-														<div class="col-md-4">
-															<div class="form-group row">
-																<label class="col-sm-6 col-form-label">categories 1</label>
-															
-															</div>
-														</div>
-														<div class="col-md-6">
-															<div class="form-group row">
-																<div class="col-sm-9">
-															<select class="form-control"
-												id="optMenu1"
-												onchange="changeCate('optMenu2','menu1','optMenu1')"
-												name="optMenu1">
-												<option value="0">---select---</option>
-												<c:forEach var="menus" items="${menu}">
-													<option value="${menus.m1id}">${menus.menu}</option>
-												</c:forEach>
-											</select>
-																</div>
-															</div>
-														</div>
-														
-													</div>
-													<div class="row">
-														<div class="col-md-4">
-															<div class="form-group row">
-																<label class="col-sm-6 col-form-label">categories 2</label>
-															
-															</div>
-														</div>
-														<div class="col-md-6">
-															<div class="form-group row">
-																<div class="col-sm-9">
-															<select class="form-control" name="optMenu2"  id="optMenu2"
-												onchange="changeCate('optMenu3','menu2','optMenu2')">
-												<option value="0">select</option>
-											</select>
-																</div>
-															</div>
-														</div>
-														
-													</div>
-													<div class="row">
-														<div class="col-md-4">
-															<div class="form-group row">
-																<label class="col-sm-6 col-form-label">categories 3</label>
-																
-															</div>
-														</div>
-														<div class="col-md-6">
-															<div class="form-group row">
-																<div class="col-sm-9">
-																		<select class="form-control"  name="optMenu3" id="optMenu3">
-												<option value="0">---select---</option>
-											</select>
-																</div>
-															</div>
-														</div>
+													
+					
+										<table id="example" class="table table-striped table-bordered"
+											width="100%" cellspacing="0">
+
+
+								
+</table>
+
+									</div>							
 													
 													
-														
-													</div>
-		<div class="row">
-														<div class="col-md-4">
-															<div class="form-group row">
-																<label class="col-sm-6 col-form-label">Product Title</label>
-																
-															</div>
-														</div>
-														<div class="col-md-6">
-															<div class="form-group row">
-																<div class="col-sm-9">
-																	<input type="text" class="form-control" id="txtTitle"
-													name="txtTitle" placeholder="product title">
-																</div>
-															</div>
-														</div>
-													
-													
-														
-													</div>
-														<div class="row">
-														<div class="col-md-4">
-															<div class="form-group row">
-																<label class="col-sm-6 col-form-label">Product Description</label>
-																
-															</div>
-														</div>
-														<div class="col-md-6">
-															<div class="form-group row">
-																<div class="col-sm-9">
-											<textarea class="form-control" id="txtDescrption" rows="8"></textarea>
-																</div>
-															</div>
-														</div>
-													</div>	
-													<input type="submit" class="btn btn-success mr-2" value="Submit">
-													</form>
 											</div>
 										</div>
 									</div>
@@ -235,38 +147,69 @@
 		<script
 		src="${pageContext.request.contextPath}/js/custom/separate.js"></script>
 		
-<script type="text/javascript">
-	var select = '';
-	function changeCate(divId, categories, cateid) {
-		var id = $('#' + cateid + ' :selected').val();
-		$select = $("#" + divId);
-		$select.find("option").remove();
-		var js1 = new Object();
-		js1.id = id;
-		js1.select = categories;
-		js1.opt = "opt.retrive";
-		if (id > 0) {
-			var json = {
-				'json' : JSON.stringify(js1)
-			};
-			//ajaxRequest(json, 'get', '/admin/${sessionScope.admin}/menus',divTest);
-			ajaxCallRequestResponse('json', json, 'POST',
-					'../retrive_menu', divTest);
-		} else
-			alert("no data found");
-	}
-	function divTest(data) {
-		result = $.parseJSON(data.retrive);
-		console.log(result);
-		$("<option>").val('0').text('----select----').appendTo($select);
-		$.each(result, function(k, v) {
-			    $("<option>").val(v.m2id).text(v.submenu).appendTo($select);   
+<script
+		src="${pageContext.request.contextPath}/dt/js/jquery.dataTables.min.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/dt/js/dataTables.buttons.min.js"
+		type="text/javascript"></script>
+	<script>
+		$(document).ready(function() {
+			 callDattableMethod('1','1');
 		});
+		var columnData = [
+				{
+					"title" : "Product Name",
+					"render" : function(data, type, row, meta) {
+						console.log(data+' : '+type+' : '+ row.title+' : '+ meta);
+						return row.title;
+					}
+				},
+
+				{
+					"title" : "view",
+					"render" : function(data, type, row, meta) {
+						return "<a href=\"product_description?pkey=" + row.pkey
+								+ "&scope=" + $('input[name=pval]').val() + '"'
+								+ " class=\"btn btn-success\" >details</a>";
+					}
+				}, ];
+		var buttonData = [ {
+			text : 'Allow',
+			action : function() {
+				callDattableMethod('1', '1');
+			}
+		}, {
+			text : 'pending',
+			action : function() {
+				callDattableMethod('0', '0');
+			}
+		}, {
+			text : 'reject',
+			action : function() {
+				callDattableMethod('2', '0');
+			}
+		}, {
+			text : 'processing',
+			action : function() {
+				callDattableMethod('1', '0');
+			}
+
+		} ];
+		var callDattableMethod = function(p1, p2, cas) {
+			var d = new Object();
+			var id = '#example';
+			d.p1 = p1;
+			d.p2 = p2;
+			d.cas = 'dfdfdf';
+			callDataTableWith(d, id, 'getProductList', 'post',
+					columnData, buttonData);
+
+		}
+	</script>
+	<!-- end: Javascript -->		
 		
-		$select.val('');
-		select = '';
-	}
+		
 	
-	</script>	
 </body>
 </html>

@@ -1,8 +1,4 @@
-     
-        
-        
-        
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+     <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
             <li class="nav-item nav-profile">
               <a href="#" class="nav-link">
@@ -24,7 +20,7 @@
               </a>
             </li>
             
-            
+      
             
             <li class="nav-item">
               <a class="nav-link" href="${pageContext.request.contextPath}/admin/add_menu">
@@ -43,12 +39,12 @@
             
             
              <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="${pageContext.request.contextPath}/admin/product_list">
                 <i class="menu-icon typcn typcn-th-large-outline"></i>
                 <span class="menu-title">Add Product Detail</span>
               </a>
             </li>
-            
+               
              <li class="nav-item">
               <a class="nav-link" href="#">
                 <i class="menu-icon typcn typcn-th-large-outline"></i>

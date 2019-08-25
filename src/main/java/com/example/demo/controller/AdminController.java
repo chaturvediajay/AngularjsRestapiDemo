@@ -33,8 +33,6 @@ public class AdminController {
 	public String getdd_menu(HttpServletRequest request, ModelMap model) {
 		if (request.getSession().getAttribute("user") != null) {
 			List<Menu1> m1 =menu1Service.getAllRegistrations();
-			System.out.println("******* "+m1.size());
-			
 			for(Menu1 mw1:m1) {
 				System.out.println(mw1);
 			}

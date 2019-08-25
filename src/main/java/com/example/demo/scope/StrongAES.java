@@ -82,7 +82,7 @@ public class StrongAES {
 		try {
 //			System.out.println(run("ajay"));
 //			System.out.println(decrypt(run("ajay")));
-			System.out.println(stringIntGen(10,2));
+			System.out.println(stringIntGen(7,3));
 			// da2c2e313c5ff21714d7aea6eca91ad4d915f5a226f862dc46f5145b1e87ccf4
 			// String str=StrongAES.run(StrongAES.run("ajay"));
 			// System.out.println(decrypt(str));

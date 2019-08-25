@@ -51,16 +51,16 @@ public class Product {
 	@Column(name = "uid", nullable = false)
 	private int uid;
 
-	@Column(name = "length", nullable = false)
+	@Column(name = "length", nullable = true)
 	private int length;
 
-	@Column(name = "width", nullable = false)
+	@Column(name = "width", nullable = true)
 	private int width;
 
-	@Column(name = "height", nullable = false)
+	@Column(name = "height", nullable = true)
 	private int height;
 
-	@Column(name = "weight", nullable = false)
+	@Column(name = "weight", nullable = true)
 	private int weight;
 
 	@Column(name = "visible", length = 1, columnDefinition = "int default 0")
@@ -77,12 +77,12 @@ public class Product {
 	@Column(name = "udate", nullable = true)
 	private Date udate;
 
+
+
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "m1:- " + m1Id + " m2:- " + m2Id + "  m3:- " + m3Id + " title:- " + title + " length:-" + length
-				+ " weight:-" + weight + "  width:-" + width;
-		// return "pkey:- " + pkey;
+		return "Product [pid=" + pid + ", pkey=" + pkey + ", m1Id=" + m1Id + ", tM1=" + tM1 + ", tM2=" + tM2 + ", tM3="
+				+ tM3 + ", m2Id=" + m2Id + ", m3Id=" + m3Id + ", title=" + title + ", uid=" + uid + "]";
 	}
 
 	public List<String> checkValid(HttpServletRequest request) {

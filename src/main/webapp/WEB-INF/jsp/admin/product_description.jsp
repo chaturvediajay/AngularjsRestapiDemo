@@ -73,93 +73,61 @@
 									<div class="col-12 grid-margin">
 										<div class="card">
 											<div class="card-body">
-												<h4 class="card-title">Horizontal Two column</h4>
+												<h4 class="card-title">Product Description</h4>
 												
-													<p class="card-description">Add Menu Cateogies</p>
 													
 													<form method="post">
 													<div class="row">
 														<div class="col-md-4">
 															<div class="form-group row">
-																<label class="col-sm-6 col-form-label">categories 1</label>
-															
-															</div>
-														</div>
-														<div class="col-md-6">
-															<div class="form-group row">
-																<div class="col-sm-9">
-															<select class="form-control"
-												id="optMenu1"
-												onchange="changeCate('optMenu2','menu1','optMenu1')"
-												name="optMenu1">
-												<option value="0">---select---</option>
-												<c:forEach var="menus" items="${menu}">
-													<option value="${menus.m1id}">${menus.menu}</option>
-												</c:forEach>
-											</select>
-																</div>
-															</div>
-														</div>
-														
-													</div>
-													<div class="row">
-														<div class="col-md-4">
-															<div class="form-group row">
-																<label class="col-sm-6 col-form-label">categories 2</label>
-															
-															</div>
-														</div>
-														<div class="col-md-6">
-															<div class="form-group row">
-																<div class="col-sm-9">
-															<select class="form-control" name="optMenu2"  id="optMenu2"
-												onchange="changeCate('optMenu3','menu2','optMenu2')">
-												<option value="0">select</option>
-											</select>
-																</div>
-															</div>
-														</div>
-														
-													</div>
-													<div class="row">
-														<div class="col-md-4">
-															<div class="form-group row">
-																<label class="col-sm-6 col-form-label">categories 3</label>
-																
-															</div>
-														</div>
-														<div class="col-md-6">
-															<div class="form-group row">
-																<div class="col-sm-9">
-																		<select class="form-control"  name="optMenu3" id="optMenu3">
-												<option value="0">---select---</option>
-											</select>
-																</div>
-															</div>
-														</div>
-													
-													
-														
-													</div>
-		<div class="row">
-														<div class="col-md-4">
-															<div class="form-group row">
 																<label class="col-sm-6 col-form-label">Product Title</label>
-																
+															
 															</div>
 														</div>
 														<div class="col-md-6">
 															<div class="form-group row">
 																<div class="col-sm-9">
-																	<input type="text" class="form-control" id="txtTitle"
+																<input type="text" class="form-control" id="txtTitle"
 													name="txtTitle" placeholder="product title">
 																</div>
 															</div>
 														</div>
-													
-													
 														
 													</div>
+													<div class="row">
+														<div class="col-md-4">
+															<div class="form-group row">
+																<label class="col-sm-6 col-form-label">Price Up</label>
+															
+															</div>
+														</div>
+														<div class="col-md-6">
+															<div class="form-group row">
+																<div class="col-sm-9">
+																<input type="text" class="form-control" id="txtUp"
+													name="txtTitle" placeholder="product up">
+																</div>
+															</div>
+														</div>
+														
+													</div>
+													<div class="row">
+														<div class="col-md-4">
+															<div class="form-group row">
+																<label class="col-sm-6 col-form-label">Price down</label>
+																
+															</div>
+														</div>
+														<div class="col-md-6">
+															<div class="form-group row">
+																<div class="col-sm-9">
+																	<input type="text" class="form-control" id="txtTO"
+													name="txtTitle" placeholder="product title">
+																</div>
+															</div>
+														</div>
+													</div>
+
 														<div class="row">
 														<div class="col-md-4">
 															<div class="form-group row">
@@ -175,6 +143,33 @@
 															</div>
 														</div>
 													</div>	
+													
+								    <div class="panel">
+                  <div class="panel-heading"></div>
+                  <div class="panel-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+                        <div id="upload" style="display: none;">Uploading..</div>
+                          <div class="input-group fileupload-v1">
+                            <input type="file" name="manualfile" class="fileupload-v1-file hidden"/>
+                            <input type="text" class="form-control fileupload-v1-path" placeholder="File Path..." disabled>
+                            <span class="input-group-btn">
+                              <button class="btn fileupload-v1-btn" type="button"><i class="fa fa-folder"></i> Choose File</button>
+                            </span>
+                          </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                      </div><!-- /.row -->
+                      <div id="imgivew" >
+${pd.imgurl}           
+                  </div>     
+              </div>	
+					</div>									
+													
+													
+													
+													
+													
+													
 													<input type="submit" class="btn btn-success mr-2" value="Submit">
 													</form>
 											</div>
@@ -215,6 +210,7 @@
 	</div>
 	<!-- container-scroller -->
 	<!-- plugins:js -->
+	<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/assets/vendors/js/vendor.bundle.base.js"></script>
 	<script
@@ -235,38 +231,35 @@
 		<script
 		src="${pageContext.request.contextPath}/js/custom/separate.js"></script>
 		
-<script type="text/javascript">
-	var select = '';
-	function changeCate(divId, categories, cateid) {
-		var id = $('#' + cateid + ' :selected').val();
-		$select = $("#" + divId);
-		$select.find("option").remove();
-		var js1 = new Object();
-		js1.id = id;
-		js1.select = categories;
-		js1.opt = "opt.retrive";
-		if (id > 0) {
-			var json = {
-				'json' : JSON.stringify(js1)
-			};
-			//ajaxRequest(json, 'get', '/admin/${sessionScope.admin}/menus',divTest);
-			ajaxCallRequestResponse('json', json, 'POST',
-					'../retrive_menu', divTest);
-		} else
-			alert("no data found");
-	}
-	function divTest(data) {
-		result = $.parseJSON(data.retrive);
-		console.log(result);
-		$("<option>").val('0').text('----select----').appendTo($select);
-		$.each(result, function(k, v) {
-			    $("<option>").val(v.m2id).text(v.submenu).appendTo($select);   
-		});
+  <script src="${pageContext.request.contextPath}/js/jquery.ajaxfileupload.js"></script>
+    <script>
+    
+    $(document).ready(
+			function(){
+				$('input[type="file"]').ajaxfileupload({
+			   	      'action': '<%=request.getContextPath()%>/UploadFile?cate=multiple',	
+			   	      'type': 'post', 
+			   	  'onComplete': function(response) {	        
+			   	        $('#upload').hide();
+			   	        $('#imgivew').empty();
+			   	         $.each($.parseJSON(response.url), function (index, value) {
+			   	        	jQuery("#imgu").attr('src', '<%=request.getContextPath()%>/temp/img/'+value);  
+			   	        	$("#datafile").val('');
+						alert(value);
+					$('#imgivew').val(value);
+			   	                $('#imgivew').prepend('<img ng-model="docUrl" ng-init="docUrl='+value+'" width="100px" height="50px" alt="document upload" id="docUrl" name="docUrl" class="img-circle img-responsive"  src="../temp/img/'+value+'" />');
+			   	         });
+			   	      },
+			   	      'onStart': function() {
+			   	        $('#upload').show(); 
+			   	      }
+			   	 });
+	});
+    
+    
+    
+    </script>		
 		
-		$select.val('');
-		select = '';
-	}
-	
-	</script>	
+		
 </body>
 </html>
